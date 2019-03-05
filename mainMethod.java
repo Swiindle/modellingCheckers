@@ -3,8 +3,8 @@ public class mainMethod
     public static void main(String[] arguments)
     {
         // initialization
-        gameWindow window = new gameWindow(500,500);
+        board b = new board(640,640);
         // function
-        window.open();
+        board.open();
     }
 }

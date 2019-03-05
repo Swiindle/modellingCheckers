@@ -23,7 +23,7 @@ public class board
     }
     /*
     *
-    * Opens the GUI
+    * Opens the Master File
     *
     */
     public void open()
@@ -32,9 +32,12 @@ public class board
         
         JFrame frame = new JFrame("Game"); // creates a frame
         JPanel panel = new JPanel(); // creates a panel
-        GridLayout layout = new GridLayout(8,8); // sets the layout to be a grid
-        JButton black = new JButton(); // adds black buttons
-        JButton white = new JButton(); // adds white buttons
+        GridLayout layout = new GridLayout(16,16); // sets the layout to be a grid
+        JButton[] b = new JButton[64]; // adds buttons
+        for(int i = 0 ; i < 64 ; i++)
+        {
+            b[i] = new JButton();
+        }
         
         // frame related
         
@@ -47,8 +50,10 @@ public class board
         
         frame.setContentPane(panel); // connects frame and panel
         panel.setLayout(layout); // connects the panel and the layout
-        panel.add(black);
-        panel.add(white);
+        for(int i = 0 ; i < 64 ; i++)
+        {
+            panel.add(b);
+        }
     }
     /*
      *

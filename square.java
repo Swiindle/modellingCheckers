@@ -32,21 +32,21 @@ public class square
     /*
      returns the value of the xPosition of tile
      */
-    void getXPos()
+    int getXPos()
     {
         return xPos;
     }
     /*
      returns the value of the yPosition of tile
      */
-    void getYPos()
+    int getYPos()
     {
         return yPos;
     }
     /*
      returns the square number
      */
-    void getNumber()
+    int getNumber()
     {
         return number;
     }
