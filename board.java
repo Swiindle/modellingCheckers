@@ -23,7 +23,7 @@ public class board
     }
     /*
     *
-    * Opens the Master File
+    * Opens a window
     *
     */
     public void open()
@@ -32,27 +32,56 @@ public class board
         
         JFrame frame = new JFrame("Game"); // creates a frame
         JPanel panel = new JPanel(); // creates a panel
-        GridLayout layout = new GridLayout(16,16); // sets the layout to be a grid
-        JButton[] b = new JButton[64]; // adds buttons
+        GridLayout layout = new GridLayout(8,8); // sets layout to be a gridlayout, of 8x8 size
+        JButton[] b = new JButton[64]; // creates an array of 64 objects
+        ImageIcon white = new ImageIcon("empty.png"); // imageicon the white
+        ImageIcon black = new ImageIcon("empty2.png"); // imageicon the white
         for(int i = 0 ; i < 64 ; i++)
         {
-            b[i] = new JButton();
+            b[i] = new JButton(); // initializes those objects
         }
         
         // frame related
         
         frame.setVisible(true); // makes frame visible
         frame.setSize(xDimension,yDimension); // sets the dimensions of the frame
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // frame closes when close
         
         // panel related
         
         frame.setContentPane(panel); // connects frame and panel
         panel.setLayout(layout); // connects the panel and the layout
-        for(int i = 0 ; i < 64 ; i++)
+        
+        int isBlack = 1;
+        int count = 0;
+        
+        for(int i = 0; i < 64 ; i++) // this algorithm gives each button an image
         {
-            panel.add(b);
+            panel.add(b[i]);
+            if(isBlack == 1)
+            {
+                b[i].setIcon(black);
+                isBlack = 0;
+                count++;
+            }
+            else
+            {
+                b[i].setIcon(white);
+                isBlack = 1;
+                count++;
+            }
+            if(count == 8)
+            {
+                count = 0;
+                if(isBlack == 1)
+                {
+                    isBlack = 0;
+                }
+                else
+                {
+                    isBlack = 1;
+                }
+            }
         }
     }
     /*
