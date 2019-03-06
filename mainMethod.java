@@ -5,6 +5,6 @@ public class mainMethod
         // initialization
         board b = new board(640,640);
         // function
-        board.open();
+        b.open();
     }
 }

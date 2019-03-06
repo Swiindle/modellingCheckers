@@ -1,24 +1,30 @@
+import javax.swing.*; // #includes JFrame
+import java.awt.*; // #includes Java Panels
+
 public class square
 {
-    int xPos;
-    int yPos;
+    int xCoordinate;
+    int yCoordinate;
     int numberSquare;
     int color;
-    
     /*
-     constructor
-    */
-    public square(int x, int y, int n,int c)
+     * constructor
+     */
+    public square(int n)
     {
-        xPos = x;
-        ypos = y;
         numberSquare = n;
-        color = c;
     }
     /*
-     sets the color of the tile
+     * Debugging purpouses: each square says its own name
      */
-    void changeColor()
+    public void myName()
+    {
+        System.out.printf("Hi I am Square %d, My X is %d, My Y is %d\n",numberSquare,xCoordinate,yCoordinate);
+    }
+    /*
+     * sets the color of the tile
+     */
+    public void changeColor(int color)
     {
         if(color == 0)
         {
@@ -28,26 +34,48 @@ public class square
         {
             System.out.printf("i am now black\n");
         }
+        if(color == 2)
+        {
+            System.out.printf("i am now yellow\n");
+        }
     }
     /*
-     returns the value of the xPosition of tile
+     * sets the x value to parameter
      */
-    int getXPos()
+    public void setX(int x)
     {
-        return xPos;
+        xCoordinate = x;
     }
     /*
-     returns the value of the yPosition of tile
+     * sets the y value to parameter
      */
-    int getYPos()
+    public void setY(int y)
     {
-        return yPos;
+        yCoordinate = y;
+    }
+    public void setNumber(int n)
+    {
+        numberSquare = n;
     }
     /*
-     returns the square number
+     * returns the value of the x coordinate of tile
      */
-    int getNumber()
+    public int getxCoordinate()
     {
-        return number;
+        return xCoordinate;
+    }
+    /*
+     * returns the value of the y coordinate of tile
+     */
+    public int getyCoordinate()
+    {
+        return yCoordinate;
+    }
+    /*
+    * returns the square number
+     */
+    public int getNumber()
+    {
+        return numberSquare;
     }
 }

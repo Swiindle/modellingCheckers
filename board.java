@@ -8,6 +8,14 @@ public class board
     private int xDimension;         // x dimension of the window
     private int yDimension;         // y dimension of the window
     
+    private JFrame frame = new JFrame("Game");                  // frame
+    private JPanel panel = new JPanel();                        // panel
+    private GridLayout layout = new GridLayout(8,8);            // gridlayout, 8x8
+    private JButton[] b = new JButton[64];                      // 64 buttons
+    private square[] s = new square[64];                       // 64 squares
+    private ImageIcon white = new ImageIcon("empty.png");       // white icon
+    private ImageIcon black = new ImageIcon("empty2.png");      // black icon
+    
     // methods //
     
     /**
@@ -22,51 +30,54 @@ public class board
         yDimension = y;
     }
     /*
-    *
-    * Opens a window
-    *
+    * This method initializes the board
     */
     public void open()
     {
-        // constructors
+        //INSTANTIATE CONSTRUCTORS
         
-        JFrame frame = new JFrame("Game"); // creates a frame
-        JPanel panel = new JPanel(); // creates a panel
-        GridLayout layout = new GridLayout(8,8); // sets layout to be a gridlayout, of 8x8 size
-        JButton[] b = new JButton[64]; // creates an array of 64 objects
-        ImageIcon white = new ImageIcon("empty.png"); // imageicon the white
-        ImageIcon black = new ImageIcon("empty2.png"); // imageicon the white
         for(int i = 0 ; i < 64 ; i++)
         {
-            b[i] = new JButton(); // initializes those objects
+            b[i] = new JButton();                           // INSTANTIATE buttons
+            s[i] = new square(i);                           // INSTANTIATE squares
         }
         
-        // frame related
+        //FRAME
         
-        frame.setVisible(true); // makes frame visible
-        frame.setSize(xDimension,yDimension); // sets the dimensions of the frame
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // frame closes when close
+        frame.setVisible(true);                                 // makes frame visible
+        frame.setSize(xDimension,yDimension);                   // sets the dimensions of the frame
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);   // frame closes when close
         
-        // panel related
+        //PANEL
+        frame.setContentPane(panel);                            // connects frame and panel
+        panel.setLayout(layout);                                // connects the panel and the layout
         
-        frame.setContentPane(panel); // connects frame and panel
-        panel.setLayout(layout); // connects the panel and the layout
-        
+        //BUTTON & SQUARE
+        this.setIcon();                                         // see below
+        this.makeSquares();                                     // see below
+    }
+    /*
+    * Gives each button an icon, gives each square a color
+     */
+    private void setIcon()
+    {
         int isBlack = 1;
         int count = 0;
         
-        for(int i = 0; i < 64 ; i++) // this algorithm gives each button an image
+        for(int i = 0; i < 64 ; i++)
         {
             panel.add(b[i]);
             if(isBlack == 1)
             {
                 b[i].setIcon(black);
+                s[i].changeColor(1);
                 isBlack = 0;
                 count++;
             }
             else
             {
                 b[i].setIcon(white);
+                s[i].changeColor(0);
                 isBlack = 1;
                 count++;
             }
@@ -85,39 +96,22 @@ public class board
         }
     }
     /*
-     *
-     * Returns Window Size
-     *
+     * Gives each square a x coordinate and a y coordinate
      */
-    public int getXDimension()
+    private void makeSquares()
     {
-        return this.xDimension;
-    }
-    /*
-     *
-     * Returns Window Size
-     *
-     */
-    public int getYDimension()
-    {
-        return this.yDimension;
-    }
-    /*
-     *
-     * Sets X Dimension
-     *
-     */
-    public void setXDimension(int x)
-    {
-        this.xDimension = x;
-    }
-    /*
-     *
-     * Sets Y Dimension
-     *
-     */
-    public void setYDimension(int y)
-    {
-        this.yDimension = y;
+        int x = 0;
+        int y = 0;
+        for(int i = 0 ; i < 64 ; i++)
+        {
+            s[i].setX(x);
+            s[i].setY(y);
+            if(x == 8)
+            {
+                x = 0;
+                y++;
+            }
+            x++;
+        }
     }
 }
