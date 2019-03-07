@@ -1,43 +1,49 @@
-import javax.swing.*; // #includes JFrame
-import java.awt.*; // #includes Java Panels
-
 public class square
 {
     int xCoordinate;
     int yCoordinate;
     int numberSquare;
-    int color;
+    int baseColor;
+    int isSelected = 0;
     /*
-     * constructor
+     *
+     * Constructor
+     *
      */
     public square(int n)
     {
         numberSquare = n;
     }
     /*
+     *
      * Debugging purpouses: each square says its own name
+     *
      */
     public void myName()
     {
         System.out.printf("Hi I am Square %d, My X is %d, My Y is %d\n",numberSquare,xCoordinate,yCoordinate);
     }
     /*
-     * sets the color of the tile
+     *
+     * sets the baseColor of the tile
+     *
      */
-    public void changeColor(int color)
+    public void setColor(int c)
     {
-        if(color == 0)
+        if(c == 0)
         {
-            System.out.printf("i am now white\n");
+            System.out.printf("square %d is now white\n",numberSquare);
+            baseColor = 0;
         }
-        if(color == 1)
+        if(c == 1)
         {
-            System.out.printf("i am now black\n");
+            System.out.printf("square %d is now black\n",numberSquare);
+            baseColor = 1;
         }
-        if(color == 2)
-        {
-            System.out.printf("i am now yellow\n");
-        }
+    }
+    public int getColor()
+    {
+        return baseColor;
     }
     /*
      * sets the x value to parameter
@@ -53,6 +59,9 @@ public class square
     {
         yCoordinate = y;
     }
+    /*
+     * sets the
+     */
     public void setNumber(int n)
     {
         numberSquare = n;
@@ -72,10 +81,44 @@ public class square
         return yCoordinate;
     }
     /*
-    * returns the square number
+     *
+     * returns the square number
+     *
      */
     public int getNumber()
     {
         return numberSquare;
+    }
+    /*
+     *
+     *
+     *
+     */
+    public void changeSelect()
+    {
+        if(isSelected == 1)
+        {
+            isSelected = 0;
+        }
+        else if(isSelected == 0)
+        {
+            isSelected = 1;
+        }
+    }
+    /*
+     *
+     *
+     *
+     */
+    public int isSelected()
+    {
+        if(isSelected == 0)
+        {
+            return 0;
+        }
+        else
+        {
+            return 1;
+        }
     }
 }
