@@ -1,4 +1,4 @@
-public class square
+public class Square
 {
     int xCoordinate;
     int yCoordinate;
@@ -11,9 +11,19 @@ public class square
      * Constructor
      *
      */
-    public square(int n)
+    public Square(int n)
     {
         numberSquare = n;
+    }
+    /*
+     *
+     * Constructor
+     *
+     */
+    public Square(int n, int p)
+    {
+        numberSquare = n;
+        piece = p;
     }
     /*
      *
@@ -64,14 +74,14 @@ public class square
      * returns the value of the x coordinate of tile
      *
      */
-    public int getxCoordinate()
+    public int getX()
     {
         return xCoordinate;
     }
     /*
      * returns the value of the y coordinate of tile
      */
-    public int getyCoordinate()
+    public int getY()
     {
         return yCoordinate;
     }
@@ -105,7 +115,7 @@ public class square
      *
      *
      */
-    public int isSelected()
+    public int getSelected()
     {
         if(isSelected == 0)
         {
@@ -155,7 +165,7 @@ public class square
      * returns the value of the current piece that the square has
      *
      */
-    public int whatPiece()
+    public int getPiece()
     {
         return piece;
     }
@@ -164,13 +174,22 @@ public class square
      * Moves the piece from current square to the square provided
      *
      */
-    public void moveTo(square that)
+    public void moveTo(Square that)
     {
-        if(that.whatPiece() == 0)
+        if(that.getPiece() == 0)
         {
             that.setPiece(piece);
             piece = 0;
-            System.out.printf("square %d has been moved to %d\n",numberSquare,that.getNumber());
         }
+    }
+    /*
+     *
+     *
+     *
+     *
+     */
+    public void sayName()
+    {
+        System.out.printf("Hi, I am square %d, I have %d piece\n",numberSquare,piece);
     }
 }

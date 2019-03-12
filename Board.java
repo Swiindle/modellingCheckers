@@ -3,7 +3,7 @@ import java.awt.*; // #includes Java Panels
 import java.awt.event.*; // #includes action listener
 
 
-public class board implements ActionListener
+public class Board implements ActionListener
 {
     //INSTANCE VARIABLES
     
@@ -11,28 +11,28 @@ public class board implements ActionListener
     private int yDimension;                                         // y dimension of the window
     private int selectedButton = 65;                                 // the current board selected piece
     
+    //INSTIANTIATE
     private JFrame frame = new JFrame("Game");                      // frame
     private JPanel panel = new JPanel();                            // panel
     private GridLayout layout = new GridLayout(8,8);                // gridlayout, 8x8
     private JButton[] b = new JButton[64];                          // 64 buttons
-    private square[] s = new square[64];                            // 64 squares
-    //IMAGES
-    private ImageIcon white = new ImageIcon("empty.png");           // white icon
-    private ImageIcon black = new ImageIcon("empty2.png");          // black icon
-    private ImageIcon yellow = new ImageIcon("selected.png");       // yellow icon
-    private ImageIcon redPiece = new ImageIcon("red.png");          // red piece
-    private ImageIcon redKing = new ImageIcon("red-king.png");      // redKing
-    private ImageIcon whitePiece = new ImageIcon("white.png");      // white piece
-    private ImageIcon whiteKing = new ImageIcon("white-king.png");  // whiteKing
+    private Square[] s = new Square[64];                            // 64 Squares
+        //IMAGES
+        private ImageIcon white = new ImageIcon("empty.png");           // white icon
+        private ImageIcon black = new ImageIcon("empty2.png");          // black icon
+        private ImageIcon yellow = new ImageIcon("selected.png");       // yellow icon
+        private ImageIcon redPiece = new ImageIcon("red.png");          // red piece
+        private ImageIcon redKing = new ImageIcon("red-king.png");      // redKing
+        private ImageIcon whitePiece = new ImageIcon("white.png");      // white piece
+        private ImageIcon whiteKing = new ImageIcon("white-king.png");  // whiteKing
     
     //METHODS
     /**
      * Constructor. Makes an instance of the GUI.
      *
-     * @param width The width of the window, in pixels.
-     * @param height The height of the window, in pixels.
+     *
      */
-    board(int x , int y)
+    Board(int x , int y)
     {
         xDimension = x;
         yDimension = y;
@@ -42,14 +42,6 @@ public class board implements ActionListener
     */
     public void open()
     {
-        //INSTANTIATE CONSTRUCTORS
-        
-        for(int i = 0 ; i < 64 ; i++)
-        {
-            b[i] = new JButton();                           // INSTANTIATE buttons
-            s[i] = new square(i);                           // INSTANTIATE squares
-        }
-        
         //FRAME
         
         frame.setVisible(true);                                 // makes frame visible
@@ -59,10 +51,8 @@ public class board implements ActionListener
         //PANEL
         frame.setContentPane(panel);                            // connects frame and panel
         panel.setLayout(layout);                                // connects the panel and the layout
-        
-        //BUTTON & SQUARE
-        this.makeButtons();                                     // see below
-        this.makeSquares();                                     // see below
+        //BUTTON & Square
+        this.makeSquaresAndButtons();                           // instantiates all squares and buttons
         
         //ACTION LISTENER
         for(int i = 0 ; i < 64 ; i++)
@@ -72,51 +62,50 @@ public class board implements ActionListener
     }
     /*
      *
-     * This function puts back each piece to their original location
+     * This function has been seperated from the open() function for the purpouse of clarity
      *
      */
-    public void makePieces()
+    private void makeSquaresAndButtons()
     {
-        for(int i = 40; i < 64 ; i++)   // white pieces
-        {
-            if(s[i].getColor() == 0)
-            {
-                changeTile(i,1);
-                s[i].setPiece(1);
-            }
-        }
-    }
-    /*
-     *
-     * Gives each button an icon, gives each square a color
-     *
-     */
-    private void makeButtons()
-    {
+        int y = 0;
         int isBlack = 1;
-        int count = 0;
-        
+        int x = 0;
         for(int i = 0; i < 64 ; i++)
         {
-            panel.add(b[i]);
-            if(isBlack == 1)
+            b[i] = new JButton();                                   // INSTANTIATE buttons
+            panel.add(b[i]);                                        // Connects each button the the panel
+            if(isBlack == 1)                                        // Logic for setting the tiles
             {
+                s[i] = new Square(i,5);                             // INSTANTIATE Squares
                 s[i].setColor(1);
-                this.changeTile(i,0);
+                changeTile(i,0);
                 isBlack = 0;
-                count++;
+                x++;
             }
-            else
+            else if(isBlack == 0)
             {
-                s[i].setColor(0);
-                this.changeTile(i,0);
-                isBlack = 1;
-                count++;
+                if(i > 40)
+                {
+                    s[i] = new Square(i,1);
+                    s[i].setColor(0);
+                    isBlack = 1;
+                    x++;
+                }
+                else
+                {
+                    s[i] = new Square(i,0);
+                    s[i].setColor(0);
+                    changeTile(i,0);
+                    isBlack = 1;
+                    x++;
+                }
+
             }
-            if(count == 8)
+            if(x == 8)                                           // This algorithm goes through the standard grid creation
             {
-                count = 0;
-                if(isBlack == 1)
+                x = 0;
+                y++;
+                if(isBlack == 1)                                     // alternates between white and black
                 {
                     isBlack = 0;
                 }
@@ -125,25 +114,35 @@ public class board implements ActionListener
                     isBlack = 1;
                 }
             }
+            s[i].setX(x);                                           // Sets the X coordinate
+            s[i].setY(y);                                           // Sets the Y coordinate
         }
     }
     /*
-     * Gives each square a x coordinate and a y coordinate
+     *
+     * This function puts back each piece to their original location.
+     *
      */
-    private void makeSquares()
+    public void makePieces()
     {
-        int x = 0;
-        int y = 0;
-        for(int i = 0 ; i < 64 ; i++)
+        for(int i = 0; i < 64 ; i++)
         {
-            s[i].setX(x);
-            s[i].setY(y);
-            if(x == 8)
+           /* if(i < 24) // black pieces
             {
-                x = 0;
-                y++;
+                if(s[i].getColor() == 0)
+                {
+                    changeTile(i,2);
+                    s[i].setPiece(2);
+                }
+            } */
+            if(i > 39) // white pieces
+            {
+                if(s[i].getColor() == 0)
+                {
+                    changeTile(i,1);
+                    s[i].setPiece(1);
+                }
             }
-            x++;
         }
     }
     /*
@@ -156,7 +155,7 @@ public class board implements ActionListener
         for(int i = 0 ; i < 64 ; i++)
         {
             // First selection of the square
-            if(action.getSource() == b[i] && selectedButton == 65 && s[i].whatPiece() == 1)
+            if(action.getSource() == b[i] && selectedButton == 65 && s[i].getPiece() == 1)
             {
                 selectedButton = i;
                 s[i].changeSelect();
@@ -172,7 +171,7 @@ public class board implements ActionListener
             // Pressing other button while a square is selected alrdy
             else if(action.getSource() == b[i] && s[i].getNumber() != selectedButton && selectedButton != 65)
             {
-                if(s[i].whatPiece() == 0) // if other button is empty
+                if(s[i].getPiece() == 0) // if other button is empty
                 {
                     s[selectedButton].moveTo(s[i]);
                     changeTile(selectedButton,0);

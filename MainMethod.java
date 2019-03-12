@@ -1,9 +1,9 @@
-public class mainMethod
+public class MainMethod
 {
     public static void main(String[] arguments)
     {
         // initialization
-        board b = new board(640,640);
+        Board b = new Board(640,640);
         // function
         b.open();
         b.makePieces();
