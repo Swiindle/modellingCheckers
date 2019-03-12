@@ -5,10 +5,11 @@ import java.awt.event.*; // #includes action listener
 
 public class board implements ActionListener
 {
-    // instance variables //
+    //INSTANCE VARIABLES
     
     private int xDimension;                                         // x dimension of the window
     private int yDimension;                                         // y dimension of the window
+    private int selectedButton = 65;                                 // the current board selected piece
     
     private JFrame frame = new JFrame("Game");                      // frame
     private JPanel panel = new JPanel();                            // panel
@@ -23,10 +24,8 @@ public class board implements ActionListener
     private ImageIcon redKing = new ImageIcon("red-king.png");      // redKing
     private ImageIcon whitePiece = new ImageIcon("white.png");      // white piece
     private ImageIcon whiteKing = new ImageIcon("white-king.png");  // whiteKing
-
     
-    // methods //
-    
+    //METHODS
     /**
      * Constructor. Makes an instance of the GUI.
      *
@@ -62,7 +61,7 @@ public class board implements ActionListener
         panel.setLayout(layout);                                // connects the panel and the layout
         
         //BUTTON & SQUARE
-        this.setIcon();                                         // see below
+        this.makeButtons();                                     // see below
         this.makeSquares();                                     // see below
         
         //ACTION LISTENER
@@ -73,10 +72,26 @@ public class board implements ActionListener
     }
     /*
      *
+     * This function puts back each piece to their original location
+     *
+     */
+    public void makePieces()
+    {
+        for(int i = 40; i < 64 ; i++)   // white pieces
+        {
+            if(s[i].getColor() == 0)
+            {
+                changeTile(i,1);
+                s[i].setPiece(1);
+            }
+        }
+    }
+    /*
+     *
      * Gives each button an icon, gives each square a color
      *
      */
-    private void setIcon()
+    private void makeButtons()
     {
         int isBlack = 1;
         int count = 0;
@@ -86,15 +101,15 @@ public class board implements ActionListener
             panel.add(b[i]);
             if(isBlack == 1)
             {
-                b[i].setIcon(black);
                 s[i].setColor(1);
+                this.changeTile(i,0);
                 isBlack = 0;
                 count++;
             }
             else
             {
-                b[i].setIcon(white);
                 s[i].setColor(0);
+                this.changeTile(i,0);
                 isBlack = 1;
                 count++;
             }
@@ -140,25 +155,39 @@ public class board implements ActionListener
     {
         for(int i = 0 ; i < 64 ; i++)
         {
-            if(action.getSource() == b[i] && s[i].isSelected() == 0)
+            // First selection of the square
+            if(action.getSource() == b[i] && selectedButton == 65 && s[i].whatPiece() == 1)
             {
-                this.changeTile(i,5);
+                selectedButton = i;
                 s[i].changeSelect();
-                System.out.printf("%d should now be selected\n",i);
+                System.out.printf("i am %d, i am selected\n", selectedButton);
             }
-            else if(action.getSource() == b[i] && s[i].isSelected == 1)
+            // Toggling selection of the square
+            else if(action.getSource() == b[i] && s[i].getNumber() == selectedButton && selectedButton != 65)
             {
-                System.out.printf("%d should now be unselected\n",i);
-                if(s[i].getColor() == 1)
+                System.out.printf("i am %d, i am unselected\n", selectedButton);
+                selectedButton = 65;
+                s[i].changeSelect();
+            }
+            // Pressing other button while a square is selected alrdy
+            else if(action.getSource() == b[i] && s[i].getNumber() != selectedButton && selectedButton != 65)
+            {
+                if(s[i].whatPiece() == 0) // if other button is empty
                 {
-                    this.changeTile(i,0);
-                    s[i].changeSelect();
+                    s[selectedButton].moveTo(s[i]);
+                    changeTile(selectedButton,0);
+                    changeTile(i,1);
+                    selectedButton = 65;
+                    System.out.printf("Moving to %d\n",i);
                 }
-                else if(s[i].getColor() == 0)
+                else // if other button is not relevant
                 {
-                    this.changeTile(i,0);
-                    s[i].changeSelect();
+                    System.out.printf("Not relevant\n");
                 }
+            }
+            else
+            {
+                System.out.printf("Not relevant\n");
             }
         }
     }
@@ -171,7 +200,6 @@ public class board implements ActionListener
     {
         if(c == 0)                          // sets to base color of the square
         {
-            System.out.printf("set back to normal, base color is %d\n",s[i].getColor());
             if(s[i].getColor() == 1)
             {
                 b[i].setIcon(black);

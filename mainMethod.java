@@ -6,5 +6,6 @@ public class mainMethod
         board b = new board(640,640);
         // function
         b.open();
+        b.makePieces();
     }
 }

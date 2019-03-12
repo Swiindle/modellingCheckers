@@ -5,6 +5,7 @@ public class square
     int numberSquare;
     int baseColor;
     int isSelected = 0;
+    int piece;
     /*
      *
      * Constructor
@@ -16,15 +17,6 @@ public class square
     }
     /*
      *
-     * Debugging purpouses: each square says its own name
-     *
-     */
-    public void myName()
-    {
-        System.out.printf("Hi I am Square %d, My X is %d, My Y is %d\n",numberSquare,xCoordinate,yCoordinate);
-    }
-    /*
-     *
      * sets the baseColor of the tile
      *
      */
@@ -32,42 +24,45 @@ public class square
     {
         if(c == 0)
         {
-            System.out.printf("square %d is now white\n",numberSquare);
             baseColor = 0;
         }
         if(c == 1)
         {
-            System.out.printf("square %d is now black\n",numberSquare);
             baseColor = 1;
+            piece = 5;
         }
     }
+    /*
+     *
+     * returns the base color of the square
+     *
+     */
     public int getColor()
     {
         return baseColor;
     }
     /*
-     * sets the x value to parameter
+     *
+     * sets the x coordinate of the square
+     *
      */
     public void setX(int x)
     {
         xCoordinate = x;
     }
     /*
-     * sets the y value to parameter
+     *
+     * sets the y coordinate of the square
+     *
      */
     public void setY(int y)
     {
         yCoordinate = y;
     }
     /*
-     * sets the
-     */
-    public void setNumber(int n)
-    {
-        numberSquare = n;
-    }
-    /*
+     *
      * returns the value of the x coordinate of tile
+     *
      */
     public int getxCoordinate()
     {
@@ -119,6 +114,63 @@ public class square
         else
         {
             return 1;
+        }
+    }
+    /*
+     *
+     *
+     *
+     */
+    public void setPiece(int n)
+    {
+        if(n == 0)              // no piece
+        {
+            piece = 0;
+        }
+        else if(n == 1)         // white piece
+        {
+            piece = 1;
+
+        }
+        else if(n == 2)         // red piece
+        {
+            piece = 2;
+
+        }
+        else if(n == 3)         // white king piece
+        {
+            piece = 3;
+        }
+        else if(n == 4)         // red king piece
+        {
+            piece = 4;
+        }
+        else if(n == 5)
+        {
+            piece = 5;           // black tile can have no pieces
+        }
+    }
+    /*
+     *
+     * returns the value of the current piece that the square has
+     *
+     */
+    public int whatPiece()
+    {
+        return piece;
+    }
+    /*
+     *
+     * Moves the piece from current square to the square provided
+     *
+     */
+    public void moveTo(square that)
+    {
+        if(that.whatPiece() == 0)
+        {
+            that.setPiece(piece);
+            piece = 0;
+            System.out.printf("square %d has been moved to %d\n",numberSquare,that.getNumber());
         }
     }
 }
