@@ -9,7 +9,6 @@ public class Board implements ActionListener
     
     private int xDimension;                                         // x dimension of the window
     private int yDimension;                                         // y dimension of the window
-    private int selectedButton = 65;                                 // the current board selected piece
     
     //INSTIANTIATE
     private JFrame frame = new JFrame("Game");                      // frame
@@ -132,8 +131,9 @@ public class Board implements ActionListener
      * This function puts back each piece to their original location.
      *
      */
-    public void makePieces()
+    public void resetPieces()
     {
+        System.out.printf("It's white turn!\n");
         for(int i = 0; i < 64 ; i++)
         {
            if(i < 24) // black pieces
@@ -161,41 +161,67 @@ public class Board implements ActionListener
      */
     public void actionPerformed(ActionEvent action)
     {
-        for(int i = 0 ; i < 64 ; i++)
+        for(int i = 0 ; i < 64 ; i++) // itirates through all buttons
         {
-            // First selection of the square
-            if(action.getSource() == b[i] && selectedButton == 65 && s[i].getPiece() == 1)
+            if( gr.getTurn() == 0) // when white turn
             {
-                selectedButton = i;
-                s[i].changeSelect();
-                System.out.printf("i am %d, i am selected\n", selectedButton);
-            }
-            // Toggling selection of the square
-            else if(action.getSource() == b[i] && s[i].getNumber() == selectedButton && selectedButton != 65)
-            {
-                System.out.printf("i am %d, i am unselected\n", selectedButton);
-                selectedButton = 65;
-                s[i].changeSelect();
-            }
-            // Pressing other button while a square is selected alrdy
-            else if(action.getSource() == b[i] && s[i].getNumber() != selectedButton && selectedButton != 65)
-            {
-                if(s[i].getPiece() == 0) // if other button is empty
+                // First selection of the square
+                if(action.getSource() == b[i] && gr.getSelectedButton() == 65 && s[i].getPiece() == 1)
                 {
-                    s[selectedButton].moveTo(s[i]);
-                    changeTile(selectedButton,0);
-                    changeTile(i,1);
-                    selectedButton = 65;
-                    System.out.printf("Moving to %d\n",i);
+                    gr.setSelectedButton(i);
+                    s[i].changeSelect();
+                    System.out.printf("i am %d, i am selected\n", gr.getSelectedButton());
                 }
-                else // if other button is not relevant
+                // Toggling selection of the square
+                else if(action.getSource() == b[i] && s[i].getNumber() == gr.getSelectedButton() && gr.getSelectedButton() != 65)
                 {
-                    System.out.printf("Not relevant\n");
+                    System.out.printf("i am %d, i am unselected\n", gr.getSelectedButton());
+                    gr.setSelectedButton(i);
+                    s[i].changeSelect();
+                }
+                // Pressing other button while a square is selected alrdy
+                else if(action.getSource() == b[i] && s[i].getNumber() != gr.getSelectedButton() && gr.getSelectedButton() != 65)
+                {
+                    if(s[i].getPiece() == 0) // if other button is empty
+                    {
+                        s[gr.getSelectedButton()].moveTo(s[i]);
+                        changeTile(gr.getSelectedButton(),0);
+                        changeTile(i,1);
+                        gr.toggleTurn();
+                        gr.setSelectedButton(65);
+                        System.out.printf("Moving to %d\n",i);
+                    }
                 }
             }
-            else
+            else if(gr.getTurn() == 1) // when red turn
             {
-                System.out.printf("Not relevant\n");
+                // First selection of the square
+                if(action.getSource() == b[i] && gr.getSelectedButton() == 65 && s[i].getPiece() == 2)
+                {
+                    gr.setSelectedButton(i);
+                    s[i].changeSelect();
+                    System.out.printf("i am %d, i am selected\n", gr.getSelectedButton());
+                }
+                // Toggling selection of the square
+                else if(action.getSource() == b[i] && s[i].getNumber() == gr.getSelectedButton() && gr.getSelectedButton() != 65)
+                {
+                    System.out.printf("i am %d, i am unselected\n", gr.getSelectedButton());
+                    gr.setSelectedButton(i);
+                    s[i].changeSelect();
+                }
+                // Pressing other button while a square is selected alrdy
+                else if(action.getSource() == b[i] && s[i].getNumber() != gr.getSelectedButton() && gr.getSelectedButton() != 65)
+                {
+                    if(s[i].getPiece() == 0) // if other button is empty
+                    {
+                        s[gr.getSelectedButton()].moveTo(s[i]);
+                        changeTile(gr.getSelectedButton(),0);
+                        changeTile(i,2);
+                        gr.toggleTurn();
+                        gr.setSelectedButton(65);
+                        System.out.printf("Moving to %d\n",i);
+                    }
+                }
             }
         }
     }

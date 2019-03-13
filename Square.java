@@ -1,5 +1,12 @@
 public class Square
 {
+    /* Will add this later, defined as e.g "Square.Definitions.WHITE"
+    public enum Definitions
+    {
+        WHITE,
+        RED,
+        EMPTY
+    };*/
     int xCoordinate;
     int yCoordinate;
     int numberSquare;
