@@ -168,28 +168,23 @@ public class Board implements ActionListener
                 // First selection of the square
                 if(action.getSource() == b[i] && gr.getSelectedButton() == 65 && s[i].getPiece() == 1)
                 {
-                    gr.setSelectedButton(i);
-                    s[i].changeSelect();
-                    System.out.printf("i am %d, i am selected\n", gr.getSelectedButton());
+                    this.toggleSelect(i);
                 }
                 // Toggling selection of the square
                 else if(action.getSource() == b[i] && s[i].getNumber() == gr.getSelectedButton() && gr.getSelectedButton() != 65)
                 {
-                    System.out.printf("i am %d, i am unselected\n", gr.getSelectedButton());
-                    gr.setSelectedButton(i);
-                    s[i].changeSelect();
+                    this.toggleSelect(i);
                 }
                 // Pressing other button while a square is selected alrdy
                 else if(action.getSource() == b[i] && s[i].getNumber() != gr.getSelectedButton() && gr.getSelectedButton() != 65)
                 {
-                    if(s[i].getPiece() == 0) // if other button is empty
+                    if(s[gr.getSelectedButton()].canMoveTo(s[i]) == true)
                     {
-                        s[gr.getSelectedButton()].moveTo(s[i]);
-                        changeTile(gr.getSelectedButton(),0);
-                        changeTile(i,1);
-                        gr.toggleTurn();
-                        gr.setSelectedButton(65);
-                        System.out.printf("Moving to %d\n",i);
+                        this.selectedAndMove(i,gr.getTurn());
+                    }
+                    else
+                    {
+                        System.out.println("invalid move");
                     }
                 }
             }
@@ -198,31 +193,32 @@ public class Board implements ActionListener
                 // First selection of the square
                 if(action.getSource() == b[i] && gr.getSelectedButton() == 65 && s[i].getPiece() == 2)
                 {
-                    gr.setSelectedButton(i);
-                    s[i].changeSelect();
-                    System.out.printf("i am %d, i am selected\n", gr.getSelectedButton());
+                    this.toggleSelect(i);
                 }
-                // Toggling selection of the square
+                // Unselecting the square;
                 else if(action.getSource() == b[i] && s[i].getNumber() == gr.getSelectedButton() && gr.getSelectedButton() != 65)
                 {
-                    System.out.printf("i am %d, i am unselected\n", gr.getSelectedButton());
-                    gr.setSelectedButton(i);
-                    s[i].changeSelect();
+                    this.toggleSelect(i);
                 }
-                // Pressing other button while a square is selected alrdy
+                // When pressing another square that isn't the selected square
                 else if(action.getSource() == b[i] && s[i].getNumber() != gr.getSelectedButton() && gr.getSelectedButton() != 65)
                 {
-                    if(s[i].getPiece() == 0) // if other button is empty
+                    if(s[gr.getSelectedButton()].canMoveTo(s[i]) == true)
                     {
-                        s[gr.getSelectedButton()].moveTo(s[i]);
-                        changeTile(gr.getSelectedButton(),0);
-                        changeTile(i,2);
-                        gr.toggleTurn();
-                        gr.setSelectedButton(65);
-                        System.out.printf("Moving to %d\n",i);
+                        this.selectedAndMove(i,gr.getTurn());
+                    }
+                    else
+                    {
+                        System.out.println("invalid move");
                     }
                 }
             }
+            /*
+            if(gr.getSelectedButton() != 65 && s[gr.getSelectedButton()].canMoveTo(s[i]) == true)
+            {
+                System.out.print(i);
+                changeTile(i,5);
+            }*/
         }
     }
     /*
@@ -263,5 +259,46 @@ public class Board implements ActionListener
         {
             b[i].setIcon(yellow);           // sets to selected tile
         }
+    }
+    /*
+     *
+     * This function has been seperated from the action function for clarity
+     *
+     */
+    private void toggleSelect(int i)
+    {
+        if(s[i].getSelected() == 1)
+        {
+            s[i].changeSelect();
+            gr.setSelectedButton(65);
+            System.out.println("piece " + s[i].getNumber() + "un selected");
+        }
+        else
+        {
+            s[i].changeSelect();
+            gr.setSelectedButton(i);
+            System.out.println("piece " + s[i].getNumber() + "selected");
+        }
+    }
+    /*
+     *
+     * The function has been seperated from action function for clarity
+     * i = which itiration of the loop, n = which turn
+     */
+    private void selectedAndMove(int i , int n)
+    {
+        s[gr.getSelectedButton()].moveTo(s[i]);
+        changeTile(gr.getSelectedButton(),0);
+        if( n == 0)
+        {
+            changeTile(i,1);
+        }
+        else
+        {
+            changeTile(i,2);
+        }
+        gr.toggleTurn();
+        gr.setSelectedButton(65);
+        System.out.printf("Moving to %d\n",i);
     }
 }

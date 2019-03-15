@@ -189,10 +189,81 @@ public class Square
             piece = 0;
         }
     }
+    public Boolean canMoveTo(Square that)
+    {
+        if(piece == 1) // if a white piece,
+        {
+            if(that.getPiece() == 5)
+            {
+                System.out.println("you can't move to black pieces");
+                return false;
+            }
+            else if(that.getY() > yCoordinate)
+            {
+                System.out.println("you can't move backwards");
+                return false;
+            }
+            else if(that.getY() != yCoordinate - 1)
+            {
+                System.out.println("you can only move 1 step forward!");
+                return false;
+            }
+            else if((xCoordinate == 7 && that.getX() != 6) || (xCoordinate == 0 && that.getX() != 1))
+            {
+                System.out.println("you can't move, special edge case");
+                return false;
+            }
+            else if(that.getX() != xCoordinate - 1 && that.getX() != xCoordinate + 1)
+            {
+                System.out.println("you can't move that far left");
+                return false;
+            }
+            else
+            {
+                System.out.println("can move");
+                return true;
+            }
+        }
+        else if(piece == 2) // if a red piece,
+        {
+            if(that.getPiece() == 5)
+            {
+                System.out.println("you can't move to black pieces");
+                return false;
+            }
+            else if(that.getY() < yCoordinate)
+            {
+                System.out.println("you can't move backwards");
+                return false;
+            }
+            else if(that.getY() != yCoordinate + 1)
+            {
+                System.out.println("you can only move 1 step forward!");
+                return false;
+            }
+            else if((xCoordinate == 7 && that.getX() != 6) || (xCoordinate == 0 && that.getX() != 1))
+            {
+                System.out.println("you can't move, special edge case");
+                return false;
+            }
+            else if(that.getX() != xCoordinate - 1 && that.getX() != xCoordinate + 1)
+            {
+                System.out.println("you can't that far left");
+                return false;
+            }
+            else
+            {
+                System.out.println("can move");
+                return true;
+            }
+        }
+        System.out.println("should not get here");
+        return false;
+    }
     /*
      *
      *
-     *
+     * Function is here for debuggin purpouses
      *
      */
     public void sayName()
