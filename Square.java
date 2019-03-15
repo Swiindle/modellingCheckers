@@ -1,3 +1,8 @@
+/**
+* This class contains all the necessary data for each square on the board.
+* Works closely with JButton to make the game work.
+* The square class contains all some permenant data and data that can be changed.
+*/
 public class Square
 {
     /* Will add this later, defined as e.g "Square.Definitions.WHITE"
@@ -13,18 +18,11 @@ public class Square
     int baseColor;
     int isSelected = 0;
     int piece;
-    /*
+    /**
+     * Constructor. Creates an instance of the square class.
      *
-     * Constructor
-     *
-     */
-    public Square(int n)
-    {
-        numberSquare = n;
-    }
-    /*
-     *
-     * Constructor
+     * @param n gives the square the number of n
+     * @param p gives the square the piece of p
      *
      */
     public Square(int n, int p)
@@ -32,10 +30,19 @@ public class Square
         numberSquare = n;
         piece = p;
     }
-    /*
+    /**
+     * Returns the number of the square.
+     */
+    public int getNumber()
+    {
+        return numberSquare;
+    }
+    /**
+     * Sets the original color of the square. Should be called only once. Permenant data.
      *
-     * sets the baseColor of the tile
-     *
+     * This method should be used to set the square to be either white (baseColor = 0)
+     * or black ( baseColor = 1)
+     * @param c sets the base color of this square
      */
     public void setColor(int c)
     {
@@ -49,62 +56,55 @@ public class Square
             piece = 5;
         }
     }
-    /*
-     *
-     * returns the base color of the square
-     *
+    /**
+     * Returns the original color of this square.
+     * @return the Base Color of the square
      */
     public int getColor()
     {
         return baseColor;
     }
-    /*
-     *
-     * sets the x coordinate of the square
-     *
+    /**
+     * Sets the X coordinate of the square to the given x parameter.
+     * Should only be called once.
+     * Permenant data.
+     * @param x sets the X coordinate to this value
      */
     public void setX(int x)
     {
         xCoordinate = x;
     }
-    /*
-     *
-     * sets the y coordinate of the square
-     *
+    /**
+     * Sets the Y coordinate of the square to the given x parameter.
+     * Should only be called once.
+     * Permenant data.
+     * @param y sets the Y coordinate to this value
      */
     public void setY(int y)
     {
         yCoordinate = y;
     }
-    /*
-     *
-     * returns the value of the x coordinate of tile
-     *
+    /**
+     * Returns the X coordinate of this square.
+     * @return the X coordinate of the square on the board.
      */
     public int getX()
     {
         return xCoordinate;
     }
-    /*
-     * returns the value of the y coordinate of tile
+    /**
+     * Returns the Y coordinate of this square.
+     * @return the Y coordinate of the square on the board.
      */
     public int getY()
     {
         return yCoordinate;
     }
-    /*
+    /**
+     * Toggles whether this square has been selected by the user or not
      *
-     * returns the square number
-     *
-     */
-    public int getNumber()
-    {
-        return numberSquare;
-    }
-    /*
-     *
-     *
-     *
+     * If this square has been selected and this method is called, this square is now unselected.
+     * If this square is not selected and this method is called, this square is now selected.
      */
     public void changeSelect()
     {
@@ -117,12 +117,11 @@ public class Square
             isSelected = 1;
         }
     }
-    /*
-     *
-     *
-     *
+    /**
+     * Returns whether this square is selected or not
+     * @return whether this piece has been selected or not
      */
-    public int getSelected()
+    public int getSelected() // should this be a boolean type?
     {
         if(isSelected == 0)
         {
@@ -133,10 +132,12 @@ public class Square
             return 1;
         }
     }
-    /*
+    /**
+     * Gives this square a piece.
      *
-     *
-     *
+     * 0 means no piece. 1 means white piece. 2 means red piece. 3 means white king. 4 means red king.
+     * 5 means this piece has a yellow square. 6 means that this piece is black and should never have a piece.
+     * @param n the new piece that this square has
      */
     public void setPiece(int n)
     {
@@ -170,32 +171,34 @@ public class Square
             piece = 6;
         }
     }
-    /*
-     *
-     * returns the value of the current piece that the square has
-     *
+    /**
+     * Returns the type of piece this square has.
+     * @return the piece type
      */
     public int getPiece()
     {
         return piece;
     }
-    /*
-     *
-     * Moves the piece from current square to the square provided
-     *
+    /**
+     * This method moves the piece in this square to the square specified.
+     * @param that the square that the piece should be moved to
      */
     public void moveTo(Square that)
     {
         that.setPiece(piece);
         piece = 0;
     }
+    /**
+     * This method dictates whether a move to the given square is valid. It is based on the rules of checkers.
+     *
+     * @return true of false depending whether a move is valid or not.
+     */
     public Boolean canMoveTo(Square that)
     {
         if(piece == 1) // if a white piece,
         {
             if(that.getPiece() == 6)
             {
-                //System.out.println("you can't move to black pieces");
                 return false;
             }
             else if(that.getPiece() != 0 && that.getPiece() != 5)
@@ -204,27 +207,22 @@ public class Square
             }
             else if(that.getY() > yCoordinate)
             {
-                //System.out.println("you can't move backwards");
                 return false;
             }
             else if(that.getY() != yCoordinate - 1)
             {
-                //System.out.println("you can only move 1 step forward!");
                 return false;
             }
             else if((xCoordinate == 7 && that.getX() != 6) || (xCoordinate == 0 && that.getX() != 1))
             {
-                //System.out.println("you can't move, special edge case");
                 return false;
             }
             else if(that.getX() != xCoordinate - 1 && that.getX() != xCoordinate + 1)
             {
-                //System.out.println("you can't move that far left");
                 return false;
             }
             else
             {
-                //System.out.println("can move");
                 return true;
             }
         }
@@ -232,47 +230,38 @@ public class Square
         {
             if(that.getPiece() == 6)
             {
-                //System.out.println("you can't move to black pieces");
                 return false;
             }
-            else if(that.getPiece() != 0 && that.getPiece() != 5)
+            else if(that.getPiece() != 0 && that.getPiece() !=5)
             {
                 return false;
             }
             else if(that.getY() < yCoordinate)
             {
-                //System.out.println("you can't move backwards");
                 return false;
             }
             else if(that.getY() != yCoordinate + 1)
             {
-                //System.out.println("you can only move 1 step forward!");
                 return false;
             }
             else if((xCoordinate == 7 && that.getX() != 6) || (xCoordinate == 0 && that.getX() != 1))
             {
-                //System.out.println("you can't move, special edge case");
                 return false;
             }
             else if(that.getX() != xCoordinate - 1 && that.getX() != xCoordinate + 1)
             {
-                //System.out.println("you can't that far left");
                 return false;
             }
             else
             {
-                //System.out.println("can move");
                 return true;
             }
         }
         System.out.println("should not get here");
         return false;
     }
-    /*
-     *
-     *
-     * Function is here for debuggin purpouses
-     *
+    /**
+     * This method prints out some details about the square, most useful for debugging.
      */
     public void sayName()
     {

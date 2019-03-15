@@ -1,7 +1,10 @@
+/**
+ * This is the Board class. This class is in charge of implementing all types of java swing.
+ */
+
 import javax.swing.*; // #includes JFrame
 import java.awt.*; // #includes Java Panels
 import java.awt.event.*; // #includes action listener
-
 
 public class Board implements ActionListener
 {
@@ -28,19 +31,21 @@ public class Board implements ActionListener
     
     //METHODS
     /**
-     * Constructor. Makes an instance of the GUI.
+     * Constructor.
      *
-     *
+     * @param the X dimension of the window
+     * @param the Y dimension of the window
      */
     Board(int x , int y)
     {
         xDimension = x;
         yDimension = y;
     }
-    /*
+    /**
+     * This method opens and initializes all applicable java swing tools.
      *
-     * This method initializes the board
-     *
+     * This method initializes: JFrame, JPanel, JButtons and Action Listener. For clarity, this method continues in the 'makeSquaresAndButtons'
+     * method.
      */
     public void open()
     {
@@ -52,7 +57,7 @@ public class Board implements ActionListener
         frame.setContentPane(panel);                            // connects frame and panel
         panel.setLayout(layout);                                // connects the panel and the layout
         //BUTTON & Square
-        this.makeSquaresAndButtons();                           // instantiates all squares and buttons
+        makeSquaresAndButtons();                           // instantiates all squares and buttons
         
         //ACTION LISTENER
         for(int i = 0 ; i < 64 ; i++)
@@ -62,10 +67,10 @@ public class Board implements ActionListener
         //GO
         frame.setVisible(true);                                 // makes frame visible
     }
-    /*
+    /**
+     * This function has been seperated from the open() function for the purpouse of clarity.
      *
-     * This function has been seperated from the open() function for the purpouse of clarity
-     *
+     *  This method initializes the square classes and the JButtons. It also links each square class to the respective JButton.
      */
     private void makeSquaresAndButtons()
     {
@@ -125,14 +130,15 @@ public class Board implements ActionListener
             s[i].setY(y);                                        // Sets the Y coordinate
         }
     }
-    /*
+    /**
+     * This method resets the game.
      *
-     * This function puts back each piece to their original location.
-     *
+     * This method makes it easier to restart the game, placing back all the pieces to their original locations and resetting the values in the
+     * GameRules class.
      */
     public void resetPieces()
     {
-        System.out.printf("It's white turn!\n");
+        System.out.printf("WHITE TURN!\n");
         for(int i = 0; i < 64 ; i++)
         {
            if(i < 24) // red pieces
@@ -153,10 +159,11 @@ public class Board implements ActionListener
             }
         }
     }
-    /*
+    /**
+     * This method is the actionPerformed part of Action Listener.
      *
-     * What happens when a button is pressed?
-     *
+     * This method decides what happens when a button is pressed. Contains most of the game logic. Is extended with the
+     * toggleSelect method and the selectedAndMove method.
      */
     public void actionPerformed(ActionEvent action)
     {
@@ -183,7 +190,7 @@ public class Board implements ActionListener
                     }
                     else
                     {
-                        System.out.println("invalid move");
+                        System.out.println("invalid move, current selected piece is &d",gr.getSelectedButton());
                     }
                 }
             }
@@ -208,7 +215,7 @@ public class Board implements ActionListener
                     }
                     else
                     {
-                        System.out.println("invalid move");
+                        System.out.println("invalid move, current selected piece is &d",gr.getSelectedButton());
                     }
                 }
             }
@@ -227,10 +234,11 @@ public class Board implements ActionListener
             }
         }
     }
-    /*
+    /**
+     * This method visually changes the image that the button holds.
      *
-     * Changes the tile
-     *
+     * @param i the number of the button
+     * @param c the color that the button should be changed into
      */
     public void changeTile(int i,int c)
     {
@@ -266,10 +274,11 @@ public class Board implements ActionListener
             b[i].setIcon(yellow);           // sets to selected tile
         }
     }
-    /*
+    /**
+     * This method has been seperated from the actionListener method for clarity. It selects or unselects a square.
      *
-     * This function has been seperated from the action function for clarity
-     *
+     * This method selects or unselects a square. If a square is selected it is unselected. If a square is unselected it is selected.
+     * @param i the square number containing a piece.
      */
     private void toggleSelect(int i)
     {
@@ -286,10 +295,11 @@ public class Board implements ActionListener
             System.out.println("piece " + s[i].getNumber() + " selected");
         }
     }
-    /*
+    /**
+     * The function has been seperated from the actionListener method for clarity. It moves a piece to another and deselects that square.
      *
-     * The function has been seperated from action function for clarity
-     * i = which itiration of the loop, n = which turn
+     * @param which square has been chosen to move to
+     * @param n what turn is it? According to the GameRules class
      */
     private void selectedAndMove(int i , int n)
     {

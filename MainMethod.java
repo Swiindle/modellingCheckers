@@ -1,3 +1,8 @@
+/**
+ * This is the MainMethod class.
+ * This class controls the flow of the program and contains the main method. Executed this
+ * class to start the program.
+ */
 public class MainMethod
 {
     public static void main(String[] arguments)
