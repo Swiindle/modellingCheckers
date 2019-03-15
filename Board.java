@@ -70,17 +70,17 @@ public class Board implements ActionListener
     private void makeSquaresAndButtons()
     {
         int y = 0;
-        int isBlack = 1;
         int x = 0;
+        int isBlack = 1;
         for(int i = 0; i < 64 ; i++)
         {
             b[i] = new JButton();                                   // INSTANTIATE buttons
             panel.add(b[i]);                                        // Connects each button the the panel
-            if(x == 8)                                           // This algorithm goes through the standard grid creation
+            if(x == 8)                                              // This algorithm goes through the standard grid creation
             {
                 x = 0;
                 y++;
-                if(isBlack == 1)                                 // alternates between white and black
+                if(isBlack == 1)                                    // alternates between white and black
                 {
                     isBlack = 0;
                 }
@@ -91,11 +91,10 @@ public class Board implements ActionListener
             }
             if(isBlack == 1)                                        // Logic for setting the tiles
             {
-                s[i] = new Square(i,5);                             // INSTANTIATE Squares
+                s[i] = new Square(i,6);                             // INSTANTIATE Squares
                 s[i].setColor(1);
                 changeTile(i,0);
                 isBlack = 0;
-                x++;
             }
             else
             {
@@ -120,9 +119,9 @@ public class Board implements ActionListener
                     changeTile(i,0);
                     isBlack = 1;
                 }
-                x++;
             }
             s[i].setX(x);                                        // Sets the X coordinate
+            x++;
             s[i].setY(y);                                        // Sets the Y coordinate
         }
     }
@@ -136,7 +135,7 @@ public class Board implements ActionListener
         System.out.printf("It's white turn!\n");
         for(int i = 0; i < 64 ; i++)
         {
-           if(i < 24) // black pieces
+           if(i < 24) // red pieces
             {
                 if(s[i].getColor() == 0)
                 {
@@ -168,19 +167,19 @@ public class Board implements ActionListener
                 // First selection of the square
                 if(action.getSource() == b[i] && gr.getSelectedButton() == 65 && s[i].getPiece() == 1)
                 {
-                    this.toggleSelect(i);
+                    toggleSelect(i);
                 }
                 // Toggling selection of the square
                 else if(action.getSource() == b[i] && s[i].getNumber() == gr.getSelectedButton() && gr.getSelectedButton() != 65)
                 {
-                    this.toggleSelect(i);
+                    toggleSelect(i);
                 }
                 // Pressing other button while a square is selected alrdy
                 else if(action.getSource() == b[i] && s[i].getNumber() != gr.getSelectedButton() && gr.getSelectedButton() != 65)
                 {
                     if(s[gr.getSelectedButton()].canMoveTo(s[i]) == true)
                     {
-                        this.selectedAndMove(i,gr.getTurn());
+                        selectedAndMove(i,gr.getTurn());
                     }
                     else
                     {
@@ -193,19 +192,19 @@ public class Board implements ActionListener
                 // First selection of the square
                 if(action.getSource() == b[i] && gr.getSelectedButton() == 65 && s[i].getPiece() == 2)
                 {
-                    this.toggleSelect(i);
+                    toggleSelect(i);
                 }
                 // Unselecting the square;
                 else if(action.getSource() == b[i] && s[i].getNumber() == gr.getSelectedButton() && gr.getSelectedButton() != 65)
                 {
-                    this.toggleSelect(i);
+                    toggleSelect(i);
                 }
                 // When pressing another square that isn't the selected square
                 else if(action.getSource() == b[i] && s[i].getNumber() != gr.getSelectedButton() && gr.getSelectedButton() != 65)
                 {
                     if(s[gr.getSelectedButton()].canMoveTo(s[i]) == true)
                     {
-                        this.selectedAndMove(i,gr.getTurn());
+                        selectedAndMove(i,gr.getTurn());
                     }
                     else
                     {
@@ -213,12 +212,19 @@ public class Board implements ActionListener
                     }
                 }
             }
-            /*
+        }
+        for(int i = 0 ; i < 64 ; i++)
+        {
             if(gr.getSelectedButton() != 65 && s[gr.getSelectedButton()].canMoveTo(s[i]) == true)
             {
-                System.out.print(i);
+                s[i].setPiece(5);
                 changeTile(i,5);
-            }*/
+            }
+            else if(gr.getSelectedButton() == 65 && s[i].getPiece() == 5)
+            {
+                s[i].setPiece(0);
+                changeTile(i,0);
+            }
         }
     }
     /*
@@ -271,13 +277,13 @@ public class Board implements ActionListener
         {
             s[i].changeSelect();
             gr.setSelectedButton(65);
-            System.out.println("piece " + s[i].getNumber() + "un selected");
+            System.out.println("piece " + s[i].getNumber() + " un selected");
         }
         else
         {
             s[i].changeSelect();
             gr.setSelectedButton(i);
-            System.out.println("piece " + s[i].getNumber() + "selected");
+            System.out.println("piece " + s[i].getNumber() + " selected");
         }
     }
     /*
@@ -299,6 +305,5 @@ public class Board implements ActionListener
         }
         gr.toggleTurn();
         gr.setSelectedButton(65);
-        System.out.printf("Moving to %d\n",i);
     }
 }

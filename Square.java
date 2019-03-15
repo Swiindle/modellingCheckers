@@ -152,7 +152,6 @@ public class Square
         else if(n == 2)         // red piece
         {
             piece = 2;
-
         }
         else if(n == 3)         // white king piece
         {
@@ -162,9 +161,13 @@ public class Square
         {
             piece = 4;
         }
-        else if(n == 5)
+        else if(n == 5)         // yellow selected tile
         {
-            piece = 5;           // black tile can have no pieces
+            piece = 5;
+        }
+        else                    // black tile can have no pieces
+        {
+            piece = 6;
         }
     }
     /*
@@ -183,77 +186,82 @@ public class Square
      */
     public void moveTo(Square that)
     {
-        if(that.getPiece() == 0)
-        {
-            that.setPiece(piece);
-            piece = 0;
-        }
+        that.setPiece(piece);
+        piece = 0;
     }
     public Boolean canMoveTo(Square that)
     {
         if(piece == 1) // if a white piece,
         {
-            if(that.getPiece() == 5)
+            if(that.getPiece() == 6)
             {
-                System.out.println("you can't move to black pieces");
+                //System.out.println("you can't move to black pieces");
+                return false;
+            }
+            else if(that.getPiece() != 0 && that.getPiece() != 5)
+            {
                 return false;
             }
             else if(that.getY() > yCoordinate)
             {
-                System.out.println("you can't move backwards");
+                //System.out.println("you can't move backwards");
                 return false;
             }
             else if(that.getY() != yCoordinate - 1)
             {
-                System.out.println("you can only move 1 step forward!");
+                //System.out.println("you can only move 1 step forward!");
                 return false;
             }
             else if((xCoordinate == 7 && that.getX() != 6) || (xCoordinate == 0 && that.getX() != 1))
             {
-                System.out.println("you can't move, special edge case");
+                //System.out.println("you can't move, special edge case");
                 return false;
             }
             else if(that.getX() != xCoordinate - 1 && that.getX() != xCoordinate + 1)
             {
-                System.out.println("you can't move that far left");
+                //System.out.println("you can't move that far left");
                 return false;
             }
             else
             {
-                System.out.println("can move");
+                //System.out.println("can move");
                 return true;
             }
         }
         else if(piece == 2) // if a red piece,
         {
-            if(that.getPiece() == 5)
+            if(that.getPiece() == 6)
             {
-                System.out.println("you can't move to black pieces");
+                //System.out.println("you can't move to black pieces");
+                return false;
+            }
+            else if(that.getPiece() != 0 && that.getPiece() != 5)
+            {
                 return false;
             }
             else if(that.getY() < yCoordinate)
             {
-                System.out.println("you can't move backwards");
+                //System.out.println("you can't move backwards");
                 return false;
             }
             else if(that.getY() != yCoordinate + 1)
             {
-                System.out.println("you can only move 1 step forward!");
+                //System.out.println("you can only move 1 step forward!");
                 return false;
             }
             else if((xCoordinate == 7 && that.getX() != 6) || (xCoordinate == 0 && that.getX() != 1))
             {
-                System.out.println("you can't move, special edge case");
+                //System.out.println("you can't move, special edge case");
                 return false;
             }
             else if(that.getX() != xCoordinate - 1 && that.getX() != xCoordinate + 1)
             {
-                System.out.println("you can't that far left");
+                //System.out.println("you can't that far left");
                 return false;
             }
             else
             {
-                System.out.println("can move");
+                //System.out.println("can move");
                 return true;
             }
         }
@@ -268,6 +276,6 @@ public class Square
      */
     public void sayName()
     {
-        System.out.printf("Hi, I am square %d, I have %d piece\n",numberSquare,piece);
+        System.out.printf("Hi, I am square %d, I have %d piece, my X is %d, my Y is %d\n",numberSquare,piece,xCoordinate,yCoordinate);
     }
 }
