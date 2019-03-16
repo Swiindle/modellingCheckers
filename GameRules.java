@@ -2,38 +2,49 @@
  * This class stores all necessary information about the current state of the game.
  * Works with board class to make the game work.
  * Outputs any necessary information.
+ * There should only be one instance of GameRules class per game.
  */
 
 public class GameRules
 {
-    int turn = 0;
-    int selectedButton = 65; // the current selected button
-    int redScore = 12;
-    int whiteScore = 12;
+    
+    /* INSTANCE VARIABLES ARE LISTED BELOW */
+
+    private boolean whiteTurn = true;
+    private int turnNumber = 0;
+    private int selectedButton = 65; // the current selected button
+    private int redScore = 12;
+    private int whiteScore = 12;
+    
+    /* METHODS ARE LISTED BELOW: */
+
+    
     /**
      * This method changes whose turn it is. It also outputs to show the change.
      *
+     * If its currently white's turn, then it will change to false.
+     * If it isn't currently white's turn the it will change to true!
      */
     public void toggleTurn()
     {
-        if(turn == 0)
+        if(whiteTurn == true)
         {
-            turn = 1;
-            System.out.printf("RED'S TURN\n\n");
+            whiteTurn = false;
+            System.out.printf("RED'S TURN!\n");
         }
         else
         {
-            turn = 0;
-            System.out.printf("WHITE TURN\n\n");
+            whiteTurn = true;
+            System.out.printf("WHITE TURN!\n");
         }
     }
     /**
-     * This method returns whose turn is it. 0 being white, 1 being red.
-     * @return whose turn is it?
+     * This method returns a true or false statement depending on whether it is white's turn or not.
+     * @return Whether it is white's turn or not, as a true or false statement
      */
-    public int getTurn()
+    public boolean getWhiteTurn()
     {
-        return turn;
+        return whiteTurn;
     }
     /**
      * This method sets the Current Selected Button to the specified value.
@@ -57,12 +68,22 @@ public class GameRules
         return selectedButton;
     }
     /**
-     * This method resets the values of the GameRules class.
+     * This method resets the values of the GameRules class. Useful when the game is restarted.
      */
     public void resetScore()
     {
-        turn = 0;
+        whiteTurn = true;
         redScore = 12;
         whiteScore = 12;
+        turnNumber = 0;
+        selectedButton = 65;
+    }
+    /**
+     * This method increments the turn and outputs the turn number.
+     */
+    public void nextTurn()
+    {
+        turnNumber++;
+        System.out.printf("This is turn number %d\n\n",turnNumber);
     }
 }

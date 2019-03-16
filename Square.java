@@ -5,6 +5,9 @@
 */
 public class Square
 {
+    
+    /* INSTANCE VARIABLES ARE LISTED BELOW */
+
     /* Will add this later, defined as e.g "Square.Definitions.WHITE"
     public enum Definitions
     {
@@ -12,12 +15,14 @@ public class Square
         RED,
         EMPTY
     };*/
-    int xCoordinate;
-    int yCoordinate;
-    int numberSquare;
-    int baseColor;
-    int isSelected = 0;
-    int piece;
+    private int xCoordinate;                    // The x coordinate of the square, relative to the board
+    private int yCoordinate;                    // The x coordinate of the square, relative to the board
+    public int numberSquare; // should this be public or private? // The number of the square
+    private int baseColor;                      // The base color of the square
+    private int piece;                          // The piece that this square holds
+    
+    /* METHODS ARE LISTED BELOW: */
+    
     /**
      * Constructor. Creates an instance of the square class.
      *
@@ -53,7 +58,7 @@ public class Square
         if(c == 1)
         {
             baseColor = 1;
-            piece = 5;
+            piece = 6;
         }
     }
     /**
@@ -99,38 +104,6 @@ public class Square
     public int getY()
     {
         return yCoordinate;
-    }
-    /**
-     * Toggles whether this square has been selected by the user or not
-     *
-     * If this square has been selected and this method is called, this square is now unselected.
-     * If this square is not selected and this method is called, this square is now selected.
-     */
-    public void changeSelect()
-    {
-        if(isSelected == 1)
-        {
-            isSelected = 0;
-        }
-        else if(isSelected == 0)
-        {
-            isSelected = 1;
-        }
-    }
-    /**
-     * Returns whether this square is selected or not
-     * @return whether this piece has been selected or not
-     */
-    public int getSelected() // should this be a boolean type?
-    {
-        if(isSelected == 0)
-        {
-            return 0;
-        }
-        else
-        {
-            return 1;
-        }
     }
     /**
      * Gives this square a piece.
@@ -191,6 +164,7 @@ public class Square
     /**
      * This method dictates whether a move to the given square is valid. It is based on the rules of checkers.
      *
+     * @param takes another square as an input
      * @return true of false depending whether a move is valid or not.
      */
     public Boolean canMoveTo(Square that)
@@ -257,14 +231,6 @@ public class Square
                 return true;
             }
         }
-        System.out.println("should not get here");
-        return false;
-    }
-    /**
-     * This method prints out some details about the square, most useful for debugging.
-     */
-    public void sayName()
-    {
-        System.out.printf("Hi, I am square %d, I have %d piece, my X is %d, my Y is %d\n",numberSquare,piece,xCoordinate,yCoordinate);
+        return false;                               // the program should not reach here it's here in order to compile
     }
 }
