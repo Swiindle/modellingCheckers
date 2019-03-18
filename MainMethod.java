@@ -1,10 +1,13 @@
 /**
  * This is the MainMethod class.
- * This class controls the flow of the program and contains the main method. Executed this
+ * This class controls the flow of the program and contains the main method. Execute this
  * class to start the program.
  */
 public class MainMethod
 {
+    /**
+     * This is the main function.
+     */
     public static void main(String[] arguments)
     {
         // initialization

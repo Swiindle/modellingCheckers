@@ -197,7 +197,7 @@ public class Board implements ActionListener
                     }
                     else
                     {
-                        System.out.printf("invalid move, current selected piece is &d",gr.getSelectedButton()); // Tell the user the move can't be made
+                        System.out.printf("invalid move, current selected piece is %d",gr.getSelectedButton()); // Tell the user the move can't be made
                     }
                 }
             }
@@ -219,7 +219,7 @@ public class Board implements ActionListener
                     }
                     else
                     {
-                        System.out.printf("invalid move, current selected piece is &d",gr.getSelectedButton()); // Tell the user the move can't be made
+                        System.out.printf("invalid move, current selected piece is %d",gr.getSelectedButton()); // Tell the user the move can't be made
                     }
                 }
             }

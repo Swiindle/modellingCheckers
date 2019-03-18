@@ -13,8 +13,8 @@ public class GameRules
     private boolean whiteTurn = true;
     private int turnNumber = 0;
     private int selectedButton = 65; // the current selected button
-    private int redScore = 12;
-    private int whiteScore = 12;
+    // private int redScore = 12;
+    // private int whiteScore = 12;
     
     /* METHODS ARE LISTED BELOW: */
 
@@ -73,8 +73,8 @@ public class GameRules
     public void resetScore()
     {
         whiteTurn = true;
-        redScore = 12;
-        whiteScore = 12;
+        // redScore = 12;
+        // whiteScore = 12;
         turnNumber = 0;
         selectedButton = 65;
     }

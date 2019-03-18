@@ -37,6 +37,7 @@ public class Square
     }
     /**
      * Returns the number of the square.
+     * @return the Number of the Square
      */
     public int getNumber()
     {
@@ -164,7 +165,7 @@ public class Square
     /**
      * This method dictates whether a move to the given square is valid. It is based on the rules of checkers.
      *
-     * @param takes another square as an input
+     * @param that takes another square as an input
      * @return true of false depending whether a move is valid or not.
      */
     public Boolean canMoveTo(Square that)
